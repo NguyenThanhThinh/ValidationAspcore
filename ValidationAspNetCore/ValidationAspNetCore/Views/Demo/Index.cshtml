@@ -6,7 +6,7 @@
 <h2>Validation</h2>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Validate">
+        <form asp-action="Validate" id="myform" name="myform" role="form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FullName" class="control-label"></label>
@@ -22,7 +22,49 @@
                 <input type="submit" value="submit" class="btn btn-info" />
             </div>
         </form>
+
+
     </div>
 </div>
 
+@section Scripts{
+    <script>
+        $(function () {
+            $("#myform").validate({
+                rules: {
+                    FullName: {
+                        required: true,
+                        minlength: 3
+                    },
+                    Age: {
+                        required: true,
+                        digits: true,
+                        range: [18, 60]
+                    }
+                },
+                messages: {
+                    FullName: {
+                        required: "Họ tên bắt buộc nhập",
+                        minlength: "Tối thiểu 6 kí tự"
+                    },
+
+                    Age: {
+                        required: "Tuổi bắt buộc nhập",
+                        digits: "Nhập số",
+                        range: "Từ 18 đến 60 tuổi"
+                    }
+
+                },
+                errorLabelContainer: "#myError",
+                wrapper: "li",
+                submitHandler: function (form) {
+                    if (confirm("Dữ liệu form đã hợp lệ. Bạn có muốn submit không ? ")) {
+                        form.submit();
+                    }
+                }
+            });
+        });
+
+    </script>
+}
 
